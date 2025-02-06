@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Escape the Locked Room Puzzle</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .clue { margin: 10px 0; padding: 10px; border: 1px solid #ddd; }
+        .correct { color: green; }
+        .wrong { color: red; }
+    </style>
+</head>
+<body>
+    <h1>🔒 Escape the Locked Room 🔓</h1>
+    <p>Guess the 3-digit code using the clues below:</p>
+    
+    <!-- Clues Display -->
+    <div class="clue">
+        <strong>Clue 1:</strong> 6 8 2 ➔ 1 correct, right spot<br>
+        <strong>Clue 2:</strong> 6 1 4 ➔ 1 correct, wrong spot<br>
+        <strong>Clue 3:</strong> 2 0 6 ➔ 2 correct, wrong spots<br>
+        <strong>Clue 4:</strong> 7 3 8 ➔ No correct digits<br>
+        <strong>Clue 5:</strong> 3 8 0 ➔ 1 correct, wrong spot
+    </div>
+
+    <!-- Input & Feedback -->
+    <input type="text" id="guess" placeholder="Enter 3 digits" maxlength="3">
+    <button onclick="checkGuess()">Check</button>
+    <div id="feedback"></div>
+
+    <script>
+        const SECRET_CODE = "042"; // The correct answer
+
+        function checkGuess() {
+            const guess = document.getElementById('guess').value;
+            const feedbackDiv = document.getElementById('feedback');
+            feedbackDiv.innerHTML = '';
+
+            // Validate input
+            if (!/^\d{3}$/.test(guess)) {
+                feedbackDiv.innerHTML = "⚠️ Enter a 3-digit number!";
+                return;
+            }
+
+            // Check against clues
+            let allCorrect = true;
+            const clueResults = [
+                checkClue1(guess),
+                checkClue2(guess),
+                checkClue3(guess),
+                checkClue4(guess),
+                checkClue5(guess)
+            ];
+
+            // Build feedback
+            clueResults.forEach((result, index) => {
+                const clueText = `Clue ${index + 1}: ${result ? '✅' : '❌'}`;
+                feedbackDiv.innerHTML += `<div class="${result ? 'correct' : 'wrong'}">${clueText}</div>`;
+                if (!result) allCorrect = false;
+            });
+
+            // Final result
+            if (allCorrect) {
+                feedbackDiv.innerHTML += `<br><strong class="correct">🎉 Correct! Code: ${SECRET_CODE}</strong>`;
+            } else {
+                feedbackDiv.innerHTML += `<br><em>Keep trying!</em>`;
+            }
+        }
+
+        // Clue-checking logic (same as puzzle rules)
+        function checkClue1(guess) {
+            const clue = ['6','8','2'];
+            return guess.split('').filter((c, i) => c === clue[i]).length === 1;
+        }
+
+        function checkClue2(guess) {
+            const clue = ['6','1','4'];
+            const matches = clue.filter(c => guess.includes(c) && guess.indexOf(c) !== clue.indexOf(c));
+            return matches.length === 1;
+        }
+
+        function checkClue3(guess) {
+            const clue = ['2','0','6'];
+            const matches = clue.filter(c => guess.includes(c) && guess.indexOf(c) !== clue.indexOf(c));
+            return matches.length === 2;
+        }
+
+        function checkClue4(guess) {
+            return !['7','3','8'].some(c => guess.includes(c));
+        }
+
+        function checkClue5(guess) {
+            const clue = ['3','8','0'];
+            const matches = clue.filter(c => guess.includes(c) && guess.indexOf(c) !== clue.indexOf(c));
+            return matches.length === 1 && !guess.endsWith('0');
+        }
+    </script>
+</body>
+</html>
