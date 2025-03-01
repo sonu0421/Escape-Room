@@ -1,10 +1,11 @@
+
 <!DOCTYPE html>
 <html>
 <head>
     <title>Escape the Locked Room Puzzle</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-        body { 
+       body { 
             font-family: Arial, sans-serif; 
             padding: 15px;
             margin: 0;
@@ -63,8 +64,7 @@
             .input-group {
                 gap: 8px;
             }
-        }
-    </style>
+        }     </style>
 </head>
 <body>
     <h1>🔒 Escape the Locked Room 🔓</h1>
@@ -85,9 +85,8 @@
         <button onclick="checkGuess()">Check</button>
     </div>
     <div id="feedback"></div>
-
     <script>
-      const SECRET_CODE = "042"; // The correct answer
+        const SECRET_CODE = "042"; // The correct answer
 
         function checkGuess() {
             const guess = document.getElementById('guess').value;
@@ -152,7 +151,6 @@
             const matches = clue.filter(c => guess.includes(c) && guess.indexOf(c) !== clue.indexOf(c));
             return matches.length === 1 && !guess.endsWith('0');
         }
-
     </script>
 </body>
 </html>
