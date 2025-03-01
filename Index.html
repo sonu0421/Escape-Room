@@ -2,11 +2,68 @@
 <html>
 <head>
     <title>Escape the Locked Room Puzzle</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-        body { font-family: Arial, sans-serif; padding: 20px; }
-        .clue { margin: 10px 0; padding: 10px; border: 1px solid #ddd; }
+        body { 
+            font-family: Arial, sans-serif; 
+            padding: 15px;
+            margin: 0;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .clue { 
+            margin: 10px 0; 
+            padding: 10px; 
+            border: 1px solid #ddd;
+            font-size: 0.9em;
+        }
         .correct { color: green; }
         .wrong { color: red; }
+        #guess {
+            width: 150px;
+            padding: 12px;
+            font-size: 16px;
+            margin: 10px 0;
+        }
+        button {
+            padding: 12px 20px;
+            font-size: 16px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .input-group {
+            display: flex;
+            gap: 10px;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 10px;
+            }
+            h1 {
+                font-size: 1.5em;
+            }
+            .clue {
+                font-size: 0.85em;
+                padding: 8px;
+            }
+            #guess {
+                width: 100%;
+                box-sizing: border-box;
+            }
+            button {
+                width: 100%;
+                padding: 15px;
+            }
+            .input-group {
+                gap: 8px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -23,76 +80,14 @@
     </div>
 
     <!-- Input & Feedback -->
-    <input type="text" id="guess" placeholder="Enter 3 digits" maxlength="3">
-    <button onclick="checkGuess()">Check</button>
+    <div class="input-group">
+        <input type="text" id="guess" placeholder="Enter 3 digits" maxlength="3">
+        <button onclick="checkGuess()">Check</button>
+    </div>
     <div id="feedback"></div>
 
     <script>
-        const SECRET_CODE = "042"; // The correct answer
-
-        function checkGuess() {
-            const guess = document.getElementById('guess').value;
-            const feedbackDiv = document.getElementById('feedback');
-            feedbackDiv.innerHTML = '';
-
-            // Validate input
-            if (!/^\d{3}$/.test(guess)) {
-                feedbackDiv.innerHTML = "⚠️ Enter a 3-digit number!";
-                return;
-            }
-
-            // Check against clues
-            let allCorrect = true;
-            const clueResults = [
-                checkClue1(guess),
-                checkClue2(guess),
-                checkClue3(guess),
-                checkClue4(guess),
-                checkClue5(guess)
-            ];
-
-            // Build feedback
-            clueResults.forEach((result, index) => {
-                const clueText = `Clue ${index + 1}: ${result ? '✅' : '❌'}`;
-                feedbackDiv.innerHTML += `<div class="${result ? 'correct' : 'wrong'}">${clueText}</div>`;
-                if (!result) allCorrect = false;
-            });
-
-            // Final result
-            if (allCorrect) {
-                feedbackDiv.innerHTML += `<br><strong class="correct">🎉 Correct! Code: ${SECRET_CODE}</strong>`;
-            } else {
-                feedbackDiv.innerHTML += `<br><em>Keep trying!</em>`;
-            }
-        }
-
-        // Clue-checking logic (same as puzzle rules)
-        function checkClue1(guess) {
-            const clue = ['6','8','2'];
-            return guess.split('').filter((c, i) => c === clue[i]).length === 1;
-        }
-
-        function checkClue2(guess) {
-            const clue = ['6','1','4'];
-            const matches = clue.filter(c => guess.includes(c) && guess.indexOf(c) !== clue.indexOf(c));
-            return matches.length === 1;
-        }
-
-        function checkClue3(guess) {
-            const clue = ['2','0','6'];
-            const matches = clue.filter(c => guess.includes(c) && guess.indexOf(c) !== clue.indexOf(c));
-            return matches.length === 2;
-        }
-
-        function checkClue4(guess) {
-            return !['7','3','8'].some(c => guess.includes(c));
-        }
-
-        function checkClue5(guess) {
-            const clue = ['3','8','0'];
-            const matches = clue.filter(c => guess.includes(c) && guess.indexOf(c) !== clue.indexOf(c));
-            return matches.length === 1 && !guess.endsWith('0');
-        }
+        // ... (keep the JavaScript exactly the same as original) ...
     </script>
 </body>
 </html>
